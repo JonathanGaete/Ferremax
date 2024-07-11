@@ -1,0 +1,26 @@
+{% extends 'pagina/base.html' %}
+
+{% load static %}
+
+{% block title %}Cambiar Tipo de Usuario{% endblock title %}
+
+{% block main-content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Cambiar Tipo de Usuario: {{ user.username }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main-content %}

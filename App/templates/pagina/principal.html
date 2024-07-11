@@ -1,0 +1,98 @@
+{% extends 'pagina/base.html' %}
+{% load static %}
+
+{% block title %} Home {% endblock title %}
+
+<link rel="stylesheet" href="{% static 'app/css/principal.css' %}">
+
+{% block banner-slider %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <!-- Carrusel para los banners -->
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for b in banners %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        {% if b.imagen %}
+                        <img src="{{ b.imagen.url }}" class="d-block w-100" alt="...">
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+{% endblock banner-slider %}
+
+<br>
+
+{% block main-content %}
+<center>
+    <h1>Destacados</h1>
+</center>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <!-- Carrusel para los destacados -->
+            <div id="carouselDestacados" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for destacado in destacados %}
+                        {% if forloop.first or forloop.counter0|divisibleby:3 %}
+                            <!-- Abre un nuevo carousel-item cada tres destacados -->
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="row">
+                        {% endif %}
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <a href="{% url 'detalle_producto' producto_id=destacado.producto.pk %}">
+                                                <img src="{{ destacado.producto.imagen.url }}" class="card-img-top" alt="{{ destacado.producto.nombre }}" style="width: 300px; height: 200px; object-fit: cover;">
+                                            </a>
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ destacado.producto.nombre }}</h5>
+                                                <!-- Puedes agregar más información aquí si lo deseas -->
+                                                <!-- <p class="card-text">{{ destacado.producto.descripcion }}</p> -->
+                                                <!-- <p class="card-text">Precio: ${{ destacado.producto.precio }}</p> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                        {% if forloop.last or forloop.counter0|add:1|divisibleby:3 %}
+                                </div>
+                            </div>
+                            <!-- Cierra el carousel-item cada tres destacados -->
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselDestacados" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselDestacados" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+
+
+
+
+<br><br>
+{% endblock main-content %}

@@ -1,0 +1,63 @@
+<!-- archivo: productos.html -->
+
+{% extends 'pagina/base.html' %}
+{% load static %}
+
+{% block title %}Listado de Productos{% endblock title %}
+
+{% block main-content %}
+<div class="container">
+    <div class="my-4">
+        <form class="form-inline justify-content-end" method="GET" action="{% url 'listar_productos' %}">
+            <div class="input-group">
+                <input class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search" name="q" value="{{ query }}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <label for="currency-selector">Selecciona una moneda:</label>
+            <select id="currency-selector" class="form-control" onchange="cambiarMoneda()">
+                <option value="CLP">CLP</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="UF">UF</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for producto in productos %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm" style="height: 100%;">
+                <img class="card-img-top" src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="object-fit: cover; height: 270px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ producto.nombre }}</h5>
+                    <p class="card-text">{{ producto.descripcion }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a href="{% url 'detalle_producto' producto.id %}" class="btn btn-sm btn-outline-secondary">Ver detalle</a>
+                        </div>
+                        <small class="text-muted precio" data-precio-original="{{ producto.precio }}">{{ producto.precio }} CLP</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-md-12">
+            <p>No se encontraron productos.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    let tasasDeCambio = {{ tasas_de_cambio|safe }};
+    let monedaActual = 'CLP'; // Define la moneda actual por defecto
+</script>
+<script src="{% static 'app/js/conversion.js' %}"></script>
+{% endblock main-content %}

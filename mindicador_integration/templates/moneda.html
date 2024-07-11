@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Indicadores Económicos</title>
+</head>
+<body>
+    <h1>Indicadores Económicos</h1>
+    {% if indicators %}
+        <ul>
+            <li>UF: {{ indicators.uf.valor }}</li>
+            <li>Dólar: {{ indicators.dolar.valor }}</li>
+            <li>Euro: {{ indicators.euro.valor }}</li>
+            <!-- Agrega más indicadores según lo que necesites -->
+        </ul>
+    {% else %}
+        <p>No se pudieron obtener los indicadores económicos.</p>
+    {% endif %}
+</body>
+</html>

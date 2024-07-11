@@ -1,0 +1,33 @@
+
+.carousel-item {
+  padding: 0 5px;
+}
+.carousel-item img {
+  width: 100%;
+  border-radius: 5px;
+}
+.card {
+  border: none; /* Elimina el borde si no deseas que aparezca */
+  text-align: center; /* Centra el contenido dentro de la tarjeta */
+}
+
+.card-img-top {
+  max-width: 100%; /* Ajusta el tamaño máximo de la imagen */
+  height: auto; /* Mantiene la proporción de la imagen */
+}
+
+.card-title {
+  margin-top: 10px; /* Espacio entre la imagen y el título */
+}
+
+
+/* Estilo para desactivar el subrayado y la apariencia de enlace en el nombre del producto */
+.no-link-style {
+  text-decoration: none;
+  color: inherit;
+}
+
+.no-link-style:hover {
+  text-decoration: none; /* Elimina el subrayado al pasar el ratón (opcional) */
+  color: inherit; /* Mantiene el color de texto normal al pasar el ratón (opcional) */
+}

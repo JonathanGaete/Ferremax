@@ -1,0 +1,16 @@
+{% extends 'pagina/base.html' %}
+
+{% load static %}
+
+{% block title %}Agregar Destacado{% endblock title %}
+
+{% block main-content %}
+<div class="container">
+    <h2>Agregar Destacado</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+</div>
+{% endblock main-content %}

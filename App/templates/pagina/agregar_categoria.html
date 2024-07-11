@@ -1,0 +1,18 @@
+{% extends 'pagina/base.html' %}
+
+{% load static %}
+{% load bootstrap5 %}
+{% load crispy_forms_tags %}
+
+{% block title %}Agregar Categoría - Carrito de Compras{% endblock title %}
+
+{% block main-content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Agregar Categoría</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary mt-3">Guardar Categoría</button>
+    </form>
+</div>
+{% endblock main-content %}

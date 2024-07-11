@@ -1,0 +1,22 @@
+{% extends 'pagina/base.html' %}
+
+{% block title %}Datos de Mindicador{% endblock title %}
+
+{% block main-content %}
+<div class="container">
+    <h1 class="mt-4 mb-3">Datos de Mindicador</h1>
+    <div class="card">
+        <div class="card-body" style="overflow-x: auto;">
+            <pre class="mb-0">{{ data_mindicador|safe }}</pre>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}
+
+{% block extra_css %}
+<style>
+    .card-body {
+        white-space: pre-wrap; /* Permite el salto de línea */
+    }
+</style>
+{% endblock extra_css %}

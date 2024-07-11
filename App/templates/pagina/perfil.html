@@ -1,0 +1,53 @@
+{% extends 'pagina/base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Perfil{% endblock title %}
+
+{% block main-content %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12">
+                <h3>Bienvenido <span class="text-capitalize">{{ request.user }}</span></h3>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Opciones</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><a href="{% url 'profile' %}" class="btn btn-primary w-100">Perfil</a></li>
+                            <!-- Agrega más opciones de menú aquí según sea necesario -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Editar Perfil</h5>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class="btn btn-primary">Confirmar</button>
+                        </form>
+                        {% if form.non_field_errors %}
+                            {% for error in form.non_field_errors %}
+                                <div class="alert alert-danger mt-3">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} mt-3" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main-content %}

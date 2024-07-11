@@ -1,0 +1,16 @@
+{% extends 'pagina/base.html' %}
+
+{% load static %}
+
+{% block title %}Pago Exitoso{% endblock title %}
+
+{% block main-content %}
+<h1>Pago Exitoso</h1>
+<p>Tu pedido ha sido procesado correctamente. ¡Gracias por tu compra!</p>
+<ul>
+    {% for item in pedido.items.all %}
+        <li>{{ item.cantidad }} x {{ item.producto.nombre }} - ${{ item.precio }}</li>
+    {% endfor %}
+</ul>
+<p>Total: ${{ pedido.total }}</p>
+{% endblock main-content %}

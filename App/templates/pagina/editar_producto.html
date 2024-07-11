@@ -1,0 +1,20 @@
+<!-- archivo: editar_producto.html -->
+
+{% extends 'pagina/base.html' %}
+
+{% load static %}
+{% load bootstrap5 %}
+{% load crispy_forms_tags %}
+
+{% block title %}Editar Producto{% endblock title %}
+
+{% block main-content %}
+<div class="container">
+    <h2>Editar Producto</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form | crispy}}
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </form>
+</div>
+{% endblock main-content %}

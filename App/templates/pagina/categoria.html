@@ -1,0 +1,33 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'app/css/categoria.css' %}">
+
+<center><h1>{{ categoria.nombre }}</h1></center>
+<br><br>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="list-group">
+                {% for p in productos %}
+                    <a href="{% url 'productos-detalle' p.id %}" class="list-group-item list-group-item-action" aria-current="true">{{ p.nombre }} </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="productos">
+                {% for p in productos %}
+                   <div class="producto">
+                    <a href="{% url 'productos-detalle' p.id %}">
+                        <div class="contenedor_producto">
+                            {% if p.imagen %}
+                                <img src="{{ p.imagen.url }}" alt="{{ p.nombre }}">
+                            {% endif %}
+                            <div>{{ p.nombre }}</div>
+                            <div>{{ p.precio }}</div>
+                        </div>
+                    </a>
+                   </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

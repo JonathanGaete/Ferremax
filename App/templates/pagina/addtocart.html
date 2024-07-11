@@ -1,0 +1,162 @@
+{% extends 'pagina/base.html' %}
+
+{% load static %}
+
+{% block title %}{% endblock title %}
+
+{% block main-content %}
+
+{% load humanize %}
+
+<div class="container mb-5">
+    <div class="row">
+    {% if cart %}
+        <h1 class="text-center mb-5">Carrito de compra</h1>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Cart</h3>
+                    {% for item in cart %}
+                    <div class="row">
+                        <div class="col-sm-3 text-center aling-self-center"><img src="{{item.productos.imagen.url}}" alt="" srcset="" class="img-fluid img-thumbnail shadow-sm" height="150" width="150"></div>
+                        <div class="col-sn-9">
+                            <div>
+                                <h5>{{item.productos.title}}</h5>
+                                <p class="mb-2 text-muted small">{{item.productos.nombre}}</p>
+                                <p class="mb-2 text-muted small">{{item.productos.descripcion}}</p>
+                                <p class="mb-2 text-muted small">{{item.productos.precio|intword|intcomma}}</p>
+                                <div class="my-3">
+                                    <label for="cantidad">Cantidad: </label>
+                                    <a class="minus-cart btn"  pid="{{ item.productos.id }}"><i class="fas fa-minus-square fa-lg"></i></a>
+                                    <span id="cantidad">{{ item.cantidad }}</span>
+                                    <a class="plus-cart btn"  pid="{{ item.productos.id }}"><i class="fas fa-plus-square fa-lg"></i></a>
+                                </div>
+                                
+                                <form action="{% url 'remove_from_cart' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="pid" value="{{ item.productos.id }}">
+                                    <button type="submit" class="remove-cart btn btn-sm btn-secondary mr-3">Eliminar Item</button>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="text-muted">
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Monto Total</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between aling-items-center border-0 px-0 pb-0">Monto<span id="amount">: {{amount|intword|intcomma}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between aling-items-center px-0">IVA<span>{{IVA|intword|intcomma}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between aling-items-center border-0 px-0 mb-3">
+                            <div>
+                                <strong>Total</strong> <small>(including IVA)</small>
+                            </div>
+                            <span id="totalamount"><strong>:{{totalamount|intword|intcomma}}</strong></span>
+                        </li>            
+                    </ul>
+                    <div class="d-grid"><a href="{% url 'checkout' %}" class="btn btn-primary">Orden compra</a></div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <h1 class="text-center mb-5">Carrito vacio</h1>
+    {% endif %}
+    </div>
+</div>
+
+
+<script src="{% static 'app/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'app/js/all.min.js' %}"></script>
+<script src="{% static 'app/js/myscript.js' %}"></script>
+
+
+<script>
+      // Función para actualizar el carrito mediante AJAX
+    function updateCart(productId, action) {
+        const url = '/update-cart/';
+        const data = {
+            'productId': productId,
+            'action': action
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'  // Aquí se incluye el token CSRF
+            },
+            body: JSON.stringify(data)
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            // Actualizar la cantidad de productos en la página
+            document.getElementById('cantidad').innerText = data.quantity;
+            document.getElementById('amount').innerText = data.amount;
+            document.getElementById('totalamount').innerText = data.total;
+            document.getElementById('IVA').innerText = data.IVA;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+  
+    document.addEventListener('DOMContentLoaded', function () {
+        // Obtener todos los botones de suma y resta
+        const minusButtons = document.querySelectorAll('.minus-cart');
+        const plusButtons = document.querySelectorAll('.plus-cart');
+
+        // Agregar eventos de clic a los botones de suma y resta
+        minusButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const productId = this.getAttribute('pid');
+                updateCart(productId, 'minus');
+            });
+        });
+
+        plusButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const productId = this.getAttribute('pid');
+                updateCart(productId, 'plus');
+            });
+        });
+
+        // Función para actualizar el carrito mediante AJAX
+        function updateCart(productId, action) {
+            const url = '/update-cart/';
+            const data = {
+                'productId': productId,
+                'action': action
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify(data)
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                // Actualizar la cantidad de productos en la página
+                document.getElementById('cantidad').innerText = data.quantity;
+                document.getElementById('amount').innerText = data.amount;
+                document.getElementById('totalamount').innerText = data.total;
+                document.getElementById('IVA').innerText = data.IVA;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    });
+</script>
+ 
+
+{% endblock main-content %}
